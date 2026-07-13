@@ -1,0 +1,17 @@
+{
+  "name": "poker-pnl",
+  "version": "1.0.0",
+  "description": "Zero-cost, zero-cold-start poker PNL and settle-up ledger for a friend group (Cloudflare Workers + Turso)",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.17.4",
+    "hono": "^4.12.30"
+  },
+  "devDependencies": {
+    "wrangler": "^4.110.0"
+  }
+}

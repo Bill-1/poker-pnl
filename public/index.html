@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Ledger — Poker PNL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="table-felt">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-chip"></span>
+        <div>
+          <h1>The Ledger</h1>
+          <p class="tagline">who's up, who's down, who owes who</p>
+        </div>
+      </div>
+      <nav class="tabs" id="tabs">
+        <button class="tab active" data-tab="dashboard">Dashboard</button>
+        <button class="tab" data-tab="add-game">Add Game</button>
+        <button class="tab" data-tab="settle">Debts &amp; Payments</button>
+        <button class="tab" data-tab="users">Players</button>
+        <button class="tab" data-tab="log">Full Log</button>
+      </nav>
+    </header>
+
+    <main id="app">
+      <div id="banner" class="banner hidden"></div>
+
+      <!-- DASHBOARD -->
+      <section id="view-dashboard" class="view">
+        <div class="grid-2">
+          <div class="card">
+            <h2>Standings</h2>
+            <p class="hint">Positive = owed money by the group. Negative = owes the group.</p>
+            <div id="balances-list" class="balances-list"></div>
+          </div>
+          <div class="card">
+            <h2>Suggested Settlements</h2>
+            <p class="hint">Fewest possible payments to square everyone up. No one both pays and gets paid.</p>
+            <div id="settlements-list" class="settlements-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ADD GAME -->
+      <section id="view-add-game" class="view hidden">
+        <div class="card">
+          <h2>Record a Game</h2>
+          <p class="hint">Pick players from the list below, enter each one's net result. Must sum to exactly zero before it can be saved.</p>
+          <label class="field">
+            <span>Note (optional)</span>
+            <input id="game-note" type="text" placeholder="e.g. Friday night @ Ben's" />
+          </label>
+          <div id="game-players"></div>
+          <button class="btn-ghost" id="add-player-row">+ Add Player Row</button>
+          <div class="sum-row">
+            <span>Sum:</span>
+            <span id="game-sum" class="sum-value">0.00</span>
+          </div>
+          <button class="btn-primary" id="submit-game">Save Game</button>
+        </div>
+
+        <div class="card">
+          <h2>Game History</h2>
+          <div id="games-list" class="games-list"></div>
+        </div>
+      </section>
+
+      <!-- SETTLE -->
+      <section id="view-settle" class="view hidden">
+        <div class="grid-2">
+          <div class="card">
+            <h2>Record a Debt</h2>
+            <p class="hint">Use this for side bets or anything outside a tracked game — "X owes Y $amount".</p>
+            <form id="debt-form" class="stacked-form">
+              <label class="field">
+                <span>Who owes</span>
+                <select name="from_user" required></select>
+              </label>
+              <label class="field">
+                <span>Who they owe</span>
+                <select name="to_user" required></select>
+              </label>
+              <label class="field">
+                <span>Amount</span>
+                <input name="amount" type="number" step="0.01" min="0.01" required />
+              </label>
+              <label class="field">
+                <span>Note (optional)</span>
+                <input name="note" type="text" />
+              </label>
+              <button class="btn-primary" type="submit">Add Debt</button>
+            </form>
+          </div>
+          <div class="card">
+            <h2>Record a Payment</h2>
+            <p class="hint">Someone actually paid up in real life — this settles part of a balance.</p>
+            <form id="payment-form" class="stacked-form">
+              <label class="field">
+                <span>Who paid</span>
+                <select name="from_user" required></select>
+              </label>
+              <label class="field">
+                <span>Who received it</span>
+                <select name="to_user" required></select>
+              </label>
+              <label class="field">
+                <span>Amount</span>
+                <input name="amount" type="number" step="0.01" min="0.01" required />
+              </label>
+              <label class="field">
+                <span>Note (optional)</span>
+                <input name="note" type="text" />
+              </label>
+              <button class="btn-primary" type="submit">Add Payment</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- USERS -->
+      <section id="view-users" class="view hidden">
+        <div class="card">
+          <h2>Players</h2>
+          <p class="hint">No login, just names — this keeps things frictionless for a friend group.</p>
+          <form id="user-form" class="inline-form">
+            <input name="name" type="text" placeholder="Add a player name" required />
+            <button class="btn-primary" type="submit">Add</button>
+          </form>
+          <div id="users-list" class="users-list"></div>
+        </div>
+      </section>
+
+      <!-- LOG -->
+      <section id="view-log" class="view hidden">
+        <div class="card">
+          <h2>Full Activity Log</h2>
+          <p class="hint">Every game, debt and payment ever recorded — nothing here can be edited or deleted, so it always tells the true story.</p>
+          <div id="activity-list" class="activity-list"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
